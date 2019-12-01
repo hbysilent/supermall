@@ -12,7 +12,7 @@
 <script>
 export default {
     props:{
-        titles:{
+        titles:{//当数据类型是Array或Object时default都必须是一个函数
             type:Array,
             default(){
                 return []

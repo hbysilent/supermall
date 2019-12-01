@@ -63,14 +63,20 @@
     },
     
     created() {
-      // 1.请求多个数据
+      //1.请求多个数据
      this._getHomeMultidata()
 
-      //请求所有商品数据
+      //2.请求所有商品数据
       this._getHomeGoods('pop')
       this._getHomeGoods('new')
       this._getHomeGoods('sell')
-      
+     
+    },
+    mounted(){
+      //3.监听item图片加载完成
+      this.$bus.$on("itemImageLoad",()=>{
+        this.$refs.scroll.refresh()
+      })
     },
     methods:{
       /*
@@ -92,13 +98,15 @@
       contentScroll(position){//监听滚动条位置
         this.isShowBackTop=(-position.y)>1000
       },
-      //回到顶部，在需要监听一个组件得原生事件时，必须给对于得事件加上.native修饰符，才能监听，<back-top @click.native="backTop" />
+      //回到顶部
+      //在需要监听一个组件的原生事件时，必须给对应的事件加上.native修饰符，才能监听，<back-top @click.native="backTop" />
       backTop(){
         this.$refs.scroll.scrollTo(0,0,500)
       },
       loadMore(){
         this._getHomeGoods(this.currentType)
-        this.$refs.scroll.refresh()//将重新加载的图片刷新重新计算高度
+        //解决上拉卡顿：将重新加载的图片刷新重新计算高度
+        this.$refs.scroll.refresh()
       },
       /*
         网络请求相关的方法
