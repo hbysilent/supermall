@@ -38,10 +38,12 @@ export default {
             this.$emit('scroll',position)//自定义事件，通过$emit()把position传出去
         })
         //3.监听上拉事件
-        this.scroll.on('pullingUp',()=>{
+        if(this.pullUpLoad){
+            this.scroll.on('pullingUp',()=>{
             // console.log('上拉加载更多')
             this.$emit('pullingUp')
         })
+        }
     },
     methods:{
         scrollTo(x,y,time=400){
